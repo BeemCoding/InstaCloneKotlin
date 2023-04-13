@@ -1,2 +1,0 @@
-# InstaClone
- instagram clone app
