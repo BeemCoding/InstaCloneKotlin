@@ -1,6 +1,9 @@
 package com.yunusemreyildirim.instaclone.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,29 +12,30 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
-import com.yunusemreyildirim.instaclone.iconpack
-import com.yunusemreyildirim.instaclone.icons.Commenticon
-import com.yunusemreyildirim.instaclone.icons.Likeicon
-import com.yunusemreyildirim.instaclone.icons.Save
-import com.yunusemreyildirim.instaclone.icons.Shareicon
+import com.yunusemreyildirim.instaclone.R
 
-val photo =
-    "https://firebasestorage.googleapis.com/v0/b/kotlinfirebase-c450f.appspot.com/o/Image%2Fpexels-fang-6316461.jpg?alt=media&token=823ceaa1-3a70-4e6b-860f-714b74a61604"
+const val photo =
+    "https://firebasestorage.googleapis.com/v0/b/kotlinfirebase-c450f.appspot.com/o/Image%2Fpexels-ivan-babydov-7788797.jpg?alt=media&token=806db762-7ea3-455b-b801-370685795119"
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostImage(
 
 ) {
+    val showImage = remember{ mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,9 +43,16 @@ fun PostImage(
             .wrapContentHeight(), shape = RoundedCornerShape(15.dp), elevation = 4.dp
     ) {
         Column {
-            Row(modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 6.dp, bottom = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 6.dp, bottom = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 ProfilePhoto()
-                Text(text = "Abdul Cabbar", modifier = Modifier.padding(start = 4.dp), fontSize = 14.sp, fontFamily = FontFamily.SansSerif)
+                Text(
+                    text = "Abdul Cabbar",
+                    modifier = Modifier.padding(start = 6.dp),
+                    fontSize = 14.sp
+                )
             }
             Row {
                 Spacer(modifier = Modifier.weight(0.04f))
@@ -51,27 +62,60 @@ fun PostImage(
                     modifier = Modifier
                         .weight(0.92f)
                         .height(300.dp)
-                        .clip(RoundedCornerShape(15.dp)),
+                        .clip(RoundedCornerShape(15.dp))
+                        .combinedClickable(onClick = {},
+                            onLongClick = {
+                                showImage.value = true
+                            }, onDoubleClick = {
+
+                            }),
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center
                 )
+                if(showImage.value){
+                    Dialog(onDismissRequest = { showImage.value = false}) {
+                        AsyncImage(model = photo, contentDescription = "Dialog Image")
+                    }
+                }
+
                 Spacer(modifier = Modifier.weight(0.04f))
             }
             Spacer(modifier = Modifier.height(6.dp))
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                Row() {
-                    IconButton(onClick = {  }) {
-                        Icon(imageVector = iconpack.Likeicon, contentDescription = "like icon")
-                    }
-                    IconButton(onClick = {  }) {
-                        Icon(imageVector = iconpack.Commenticon, contentDescription = "comment icon")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 12.dp, end = 12.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    IconButton(onClick = { }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.heart),
+                            contentDescription = "like icon"
+                        )
                     }
                     IconButton(onClick = { }) {
-                        Icon(imageVector = iconpack.Shareicon, contentDescription = "share icon")
+                        Icon(
+                            painter = painterResource(id = R.drawable.comment),
+                            contentDescription = "comment icon"
+                        )
+                    }
+                    IconButton(onClick = { }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.share),
+                            contentDescription = "share icon"
+                        )
                     }
                 }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = iconpack.Save, contentDescription = "save icon")
+                IconButton(onClick = { }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.save),
+                        contentDescription = "save icon"
+                    )
                 }
             }
         }
@@ -83,9 +127,12 @@ fun ProfilePhoto() {
     val borderBrush = Brush.linearGradient(colors = listOf(Color.Red, Color.Blue, Color.Yellow))
     Box(
         modifier = Modifier
-            .size(46.dp)
+            .size(36.dp)
             .clip(CircleShape)
-            .border(width = 2.dp, brush = borderBrush, shape = CircleShape),
+            .border(width = 2.dp, brush = borderBrush, shape = CircleShape)
+            .clickable(onClick = {
+                //go profile
+            }),
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(
@@ -93,7 +140,7 @@ fun ProfilePhoto() {
             contentDescription = "post profile photo",
             modifier = Modifier
                 .clip(CircleShape)
-                .size(40.dp),
+                .size(30.dp),
             contentScale = ContentScale.Crop
         )
     }
