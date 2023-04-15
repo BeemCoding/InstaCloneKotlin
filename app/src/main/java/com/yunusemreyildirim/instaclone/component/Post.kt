@@ -11,16 +11,20 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -35,7 +39,8 @@ const val photo =
 fun PostImage(
 
 ) {
-    val showImage = remember{ mutableStateOf(false) }
+    val showImage = remember { mutableStateOf(false) }
+    val isCaptionExpanded = remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,15 +49,25 @@ fun PostImage(
     ) {
         Column {
             Row(
-                modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 6.dp, bottom = 6.dp),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier
+                    .padding(start = 12.dp, end = 6.dp, top = 6.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProfilePhoto()
-                Text(
-                    text = "Abdul Cabbar",
-                    modifier = Modifier.padding(start = 6.dp),
-                    fontSize = 14.sp
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    ProfilePhoto()
+                    Text(
+                        text = "Abdul Cabbar",
+                        modifier = Modifier.padding(start = 6.dp),
+                        fontSize = 14.sp
+                    )
+                }
+                IconButton(onClick = {
+                    //More
+                }) {
+                    Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "more for post")
+                }
             }
             Row {
                 Spacer(modifier = Modifier.weight(0.04f))
@@ -72,15 +87,14 @@ fun PostImage(
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center
                 )
-                if(showImage.value){
-                    Dialog(onDismissRequest = { showImage.value = false}) {
+                if (showImage.value) {
+                    Dialog(onDismissRequest = { showImage.value = false }) {
                         AsyncImage(model = photo, contentDescription = "Dialog Image")
                     }
                 }
 
                 Spacer(modifier = Modifier.weight(0.04f))
             }
-            Spacer(modifier = Modifier.height(6.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -118,6 +132,34 @@ fun PostImage(
                     )
                 }
             }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 6.dp)
+            ) {
+                Text(
+                    text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.",
+                    maxLines = if (isCaptionExpanded.value) Int.MAX_VALUE else 1,
+                    modifier = Modifier
+                        .clickable {
+                            isCaptionExpanded.value = !isCaptionExpanded.value
+                        }
+                        .weight(0.9f)
+                )
+                Text(text = "...", color = Color.Gray, modifier = Modifier
+                    .weight(0.1f)
+                    .alpha(if (isCaptionExpanded.value) 0f else 1f))
+            }
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 6.dp)) {
+                Text(text = "5 Comments", fontSize = 10.sp)
+                Text(text = "15.04.2023", fontSize = 11.sp)
+            }
         }
     }
 }
@@ -145,4 +187,10 @@ fun ProfilePhoto() {
         )
     }
 
+}
+
+@Preview
+@Composable
+fun Show() {
+    PostImage()
 }
