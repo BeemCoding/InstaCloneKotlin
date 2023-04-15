@@ -28,7 +28,7 @@ import coil.compose.AsyncImage
 import com.yunusemreyildirim.instaclone.R
 
 const val photo =
-    "https://firebasestorage.googleapis.com/v0/b/kotlinfirebase-c450f.appspot.com/o/Image%2Fpexels-ivan-babydov-7788797.jpg?alt=media&token=806db762-7ea3-455b-b801-370685795119"
+    "https://firebasestorage.googleapis.com/v0/b/kotlinfirebase-c450f.appspot.com/o/Image%2Fpexels-sultan-raimosan-10477018.jpg?alt=media&token=8b4c3c06-9437-4eb9-9e7a-1dde07673dbf"
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
