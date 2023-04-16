@@ -34,7 +34,7 @@ const val photo =
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostImage(
-    onCommentClick:() -> Unit = {}
+    onCommentClick:()-> Unit = {}
 ) {
     val showImage = remember { mutableStateOf(false) }
     val isCaptionExpanded = remember { mutableStateOf(false) }
