@@ -7,10 +7,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
@@ -24,7 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -37,7 +34,6 @@ const val photo =
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostImage(
-
 ) {
     val showImage = remember { mutableStateOf(false) }
     val isCaptionExpanded = remember { mutableStateOf(false) }
@@ -112,7 +108,8 @@ fun PostImage(
                             contentDescription = "like icon"
                         )
                     }
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.comment),
                             contentDescription = "comment icon"
@@ -148,15 +145,19 @@ fun PostImage(
                         }
                         .weight(0.9f)
                 )
-                Text(text = "...", color = Color.Gray, modifier = Modifier
-                    .weight(0.1f)
-                    .alpha(if (isCaptionExpanded.value) 0f else 1f))
+                Text(
+                    text = "...", color = Color.Gray, modifier = Modifier
+                        .weight(0.1f)
+                        .alpha(if (isCaptionExpanded.value) 0f else 1f)
+                )
             }
-            Row(horizontalArrangement = Arrangement.SpaceBetween,
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 6.dp)) {
+                    .padding(start = 16.dp, end = 16.dp, bottom = 6.dp)
+            ) {
                 Text(text = "5 Comments", fontSize = 10.sp)
                 Text(text = "15.04.2023", fontSize = 11.sp)
             }
@@ -189,8 +190,82 @@ fun ProfilePhoto() {
 
 }
 
-@Preview
 @Composable
-fun Show() {
-    PostImage()
+fun Comment() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(16.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            ProfilePhoto()
+            Text(
+                text = "username_x",
+                modifier = Modifier.padding(start = 6.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Text(text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının")
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp)) {
+            Icon(
+                painter = painterResource(id = R.drawable.heart),
+                contentDescription = "like comment",
+                modifier = Modifier
+                    .clickable {
+
+                    }
+                    .padding(end = 15.dp), tint = Color.Gray
+            )
+            Text(
+                text = "answer",
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(end = 15.dp),
+                color = Color.Gray
+            )
+            Text(text = "Copy", fontWeight = FontWeight.SemiBold, color = Color.Gray)
+        }
+    }
+}
+
+@Composable
+fun SubComment() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(end = 16.dp, bottom = 16.dp, start = 80.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            ProfilePhoto()
+            Text(
+                text = "username_x",
+                modifier = Modifier.padding(start = 6.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Text(text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının")
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp)) {
+            Icon(
+                painter = painterResource(id = R.drawable.heart),
+                contentDescription = "like comment",
+                modifier = Modifier
+                    .clickable {
+
+                    }
+                    .padding(end = 15.dp), tint = Color.Gray
+            )
+            Text(
+                text = "answer",
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(end = 15.dp),
+                color = Color.Gray
+            )
+            Text(text = "Copy", fontWeight = FontWeight.SemiBold, color = Color.Gray)
+        }
+    }
 }
