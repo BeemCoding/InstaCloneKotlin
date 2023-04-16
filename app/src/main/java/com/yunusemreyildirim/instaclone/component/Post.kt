@@ -34,6 +34,7 @@ const val photo =
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostImage(
+    onCommentClick:() -> Unit = {}
 ) {
     val showImage = remember { mutableStateOf(false) }
     val isCaptionExpanded = remember { mutableStateOf(false) }
@@ -109,6 +110,7 @@ fun PostImage(
                         )
                     }
                     IconButton(onClick = {
+                        onCommentClick()
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.comment),
