@@ -16,6 +16,7 @@ fun FeedPage() {
             item { PostImage() }
             item { PostImage() }
             item { PostImage() }
+            item{ PostImage() }
         }
     }
 }
