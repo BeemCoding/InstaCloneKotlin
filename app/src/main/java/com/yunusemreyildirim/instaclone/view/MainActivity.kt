@@ -85,7 +85,7 @@ class MainActivity : ComponentActivity() {
             },
         ) {
             Scaffold(bottomBar = {
-                BottomAppBar(
+                BottomAppBar(backgroundColor = MaterialTheme.colors.surface,
                     modifier = Modifier
                         .padding(all = 10.dp)
                         .clip(CircleShape)
