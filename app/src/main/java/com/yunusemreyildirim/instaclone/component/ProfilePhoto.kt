@@ -17,24 +17,15 @@ import coil.compose.AsyncImage
 
 
 @Composable
-fun ProfilePhoto() {
-    val borderBrush = Brush.linearGradient(colors = listOf(Color.Red, Color.Blue, Color.Yellow))
+fun ProfilePhoto(boxModifier:Modifier,imageModifier: Modifier) {
     Box(
-        modifier = Modifier
-            .size(36.dp)
-            .clip(CircleShape)
-            .border(width = 2.dp, brush = borderBrush, shape = CircleShape)
-            .clickable(onClick = {
-                //go profile
-            }),
+        modifier = boxModifier,
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(
+            modifier = imageModifier,
             model = photo,
             contentDescription = "post profile photo",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(30.dp),
             contentScale = ContentScale.Crop
         )
     }

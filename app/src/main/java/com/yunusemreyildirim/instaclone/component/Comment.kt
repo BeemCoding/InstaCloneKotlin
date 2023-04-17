@@ -1,21 +1,26 @@
 package com.yunusemreyildirim.instaclone.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.yunusemreyildirim.instaclone.R
+import com.yunusemreyildirim.instaclone.view.navigateAndClean
 
 
 @Composable
-fun Comment() {
+fun Comment(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -23,7 +28,16 @@ fun Comment() {
             .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            ProfilePhoto()
+            ProfilePhoto(imageModifier = Modifier
+                .clip(CircleShape)
+                .size(30.dp),
+                boxModifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
+                    .clickable {
+                        navController.navigateAndClean("ProfilePage")
+                    })
             Text(
                 text = "username_x",
                 modifier = Modifier.padding(start = 6.dp),
@@ -31,9 +45,11 @@ fun Comment() {
             )
         }
         Text(text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının")
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.heart),
                 contentDescription = "like comment",
@@ -55,7 +71,7 @@ fun Comment() {
 }
 
 @Composable
-fun SubComment() {
+fun SubComment(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -63,7 +79,16 @@ fun SubComment() {
             .padding(end = 16.dp, bottom = 16.dp, start = 80.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            ProfilePhoto()
+            ProfilePhoto(imageModifier = Modifier
+                .clip(CircleShape)
+                .size(30.dp),
+                boxModifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
+                    .clickable {
+                        navController.navigateAndClean("ProfilePage")
+                    })
             Text(
                 text = "username_x",
                 modifier = Modifier.padding(start = 6.dp),
@@ -71,9 +96,11 @@ fun SubComment() {
             )
         }
         Text(text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının")
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 4.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp)
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.heart),
                 contentDescription = "like comment",

@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.yunusemreyildirim.instaclone.R
 import com.yunusemreyildirim.instaclone.component.PostImage
 import com.yunusemreyildirim.instaclone.component.StoryAndProfilePhoto
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FeedPage(bottomSheetState: ModalBottomSheetState, scope: CoroutineScope) {
+fun FeedPage(navController: NavHostController ,bottomSheetState: ModalBottomSheetState, scope: CoroutineScope) {
     Scaffold(topBar = {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -57,31 +58,31 @@ fun FeedPage(bottomSheetState: ModalBottomSheetState, scope: CoroutineScope) {
                         .wrapContentHeight(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    item { StoryAndProfilePhoto() }
-                    item { StoryAndProfilePhoto() }
-                    item { StoryAndProfilePhoto() }
-                    item { StoryAndProfilePhoto() }
-                    item { StoryAndProfilePhoto() }
-                    item { StoryAndProfilePhoto() }
+                    item { StoryAndProfilePhoto(navController) }
+                    item { StoryAndProfilePhoto(navController) }
+                    item { StoryAndProfilePhoto(navController) }
+                    item { StoryAndProfilePhoto(navController) }
+                    item { StoryAndProfilePhoto(navController) }
+                    item { StoryAndProfilePhoto(navController) }
                 }
             }
             item {
-                PostImage {
+                PostImage(navController = navController) {
                     scope.launch { bottomSheetState.show() }
                 }
             }
             item {
-                PostImage {
+                PostImage(navController = navController) {
                     scope.launch { bottomSheetState.show() }
                 }
             }
             item {
-                PostImage {
+                PostImage(navController = navController) {
                     scope.launch { bottomSheetState.show() }
                 }
             }
             item {
-                PostImage {
+                PostImage(navController = navController) {
                     scope.launch { bottomSheetState.show() }
                 }
             }

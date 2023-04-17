@@ -33,6 +33,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     private lateinit var bottomSheetState: ModalBottomSheetState
     private lateinit var scope: CoroutineScope
+    private lateinit var selectedItem: MutableState<Int>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -55,18 +56,23 @@ class MainActivity : ComponentActivity() {
     fun Pages(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "FeedPage") {
             composable("FeedPage") {
-                FeedPage(bottomSheetState, scope)
+                selectedItem.value = 1
+                FeedPage(navController ,bottomSheetState, scope)
             }
             composable("SearchPage") {
+                selectedItem.value = 2
                 Text(text = "Search Page")
             }
             composable("NewPostPage") {
+                selectedItem.value = 3
                 Text(text = "New Post Page")
             }
             composable("ReelsPage") {
+                selectedItem.value = 4
                 Text(text = "Reels Page")
             }
             composable("ProfilePage") {
+                selectedItem.value = 5
                 Text(text = "Profile Page")
             }
         }
@@ -76,7 +82,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
     fun MainPagesWithScaffold(navController: NavHostController) {
-        val selectedItem = remember { mutableStateOf(1) }
+        selectedItem = remember { mutableStateOf(1) }
         ModalBottomSheetLayout(
             sheetState = bottomSheetState,
             sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
@@ -90,13 +96,13 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 LazyColumn {
-                    item { Comment() }
-                    item { Comment() }
-                    item { SubComment() }
-                    item { SubComment() }
-                    item { Comment() }
-                    item { Comment() }
-                    item { SubComment() }
+                    item { Comment(navController) }
+                    item { Comment(navController) }
+                    item { SubComment(navController) }
+                    item { SubComment(navController) }
+                    item { Comment(navController) }
+                    item { Comment(navController) }
+                    item { SubComment(navController) }
                 }
             },
         ) {

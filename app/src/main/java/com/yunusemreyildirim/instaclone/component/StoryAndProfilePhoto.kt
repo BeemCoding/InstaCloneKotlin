@@ -12,13 +12,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 
 @Composable
 fun StoryAndProfilePhoto(
+    navController: NavHostController
 ) {
     val borderBrush = Brush.linearGradient(colors = listOf(Color.Red, Color.Green, Color.Blue))
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -47,10 +48,4 @@ fun StoryAndProfilePhoto(
         }
         Text(text = "username_x", fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
     }
-}
-
-@Preview(name = "StoryAndProfilePhoto")
-@Composable
-private fun PreviewStoryAndProfilePhoto() {
-    StoryAndProfilePhoto()
 }

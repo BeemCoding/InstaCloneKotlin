@@ -1,9 +1,11 @@
 package com.yunusemreyildirim.instaclone.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,22 +17,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.yunusemreyildirim.instaclone.R
+import com.yunusemreyildirim.instaclone.view.navigateAndClean
 
-const val photo =
-    "https://firebasestorage.googleapis.com/v0/b/kotlinfirebase-c450f.appspot.com/o/Image%2Fpexels-sultan-raimosan-10477018.jpg?alt=media&token=8b4c3c06-9437-4eb9-9e7a-1dde07673dbf"
+const val photo = R.drawable.test_image
+
+// "https://firebasestorage.googleapis.com/v0/b/kotlinfirebase-c450f.appspot.com/o/Image%2Fpexels-sultan-raimosan-10477018.jpg?alt=media&token=8b4c3c06-9437-4eb9-9e7a-1dde07673dbf"
+val borderBrush =
+    lazy { Brush.linearGradient(colors = listOf(Color.Red, Color.Blue, Color.Yellow)) }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PostImage(
-    onCommentClick:()-> Unit = {}
+    navController: NavHostController,
+    onCommentClick: () -> Unit = {}
 ) {
     val showImage = remember { mutableStateOf(false) }
     val isCaptionExpanded = remember { mutableStateOf(false) }
@@ -49,7 +58,18 @@ fun PostImage(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    ProfilePhoto()
+                    ProfilePhoto(
+                        imageModifier = Modifier
+                            .clip(CircleShape)
+                            .size(30.dp),
+                        boxModifier = Modifier
+                            .size(36.dp)
+                            .clip(CircleShape)
+                            .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
+                            .clickable{
+                                navController.navigateAndClean("ProfilePage")
+                            }
+                    )
                     Text(
                         text = "Abdul Cabbar",
                         modifier = Modifier.padding(start = 6.dp),
