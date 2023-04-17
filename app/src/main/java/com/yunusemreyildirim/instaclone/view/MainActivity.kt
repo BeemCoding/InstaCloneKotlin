@@ -13,14 +13,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -45,18 +44,30 @@ class MainActivity : ComponentActivity() {
                     bottomSheetState =
                         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
                     scope = rememberCoroutineScope()
-                    MainPagesWithScaffold()
+                    val navController = rememberNavController()
+                    MainPagesWithScaffold(navController)
                 }
             }
         }
     }
 
     @Composable
-    fun Pages() {
-        val navController = rememberNavController()
+    fun Pages(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "FeedPage") {
             composable("FeedPage") {
                 FeedPage(bottomSheetState, scope)
+            }
+            composable("SearchPage") {
+                Text(text = "Search Page")
+            }
+            composable("NewPostPage") {
+                Text(text = "New Post Page")
+            }
+            composable("ReelsPage") {
+                Text(text = "Reels Page")
+            }
+            composable("ProfilePage") {
+                Text(text = "Profile Page")
             }
         }
     }
@@ -64,12 +75,8 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
-    fun MainPagesWithScaffold() {
-        val homePageMutable = remember { mutableStateOf(true) }
-        val searchPageMutable = remember { mutableStateOf(false) }
-        val newPostPageMutable = remember { mutableStateOf(false) }
-        val userPageMutable = remember { mutableStateOf(false) }
-        val reelsPageMutable = remember { mutableStateOf(false) }
+    fun MainPagesWithScaffold(navController: NavHostController) {
+        val selectedItem = remember { mutableStateOf(1) }
         ModalBottomSheetLayout(
             sheetState = bottomSheetState,
             sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
@@ -93,67 +100,75 @@ class MainActivity : ComponentActivity() {
                 }
             },
         ) {
-            Scaffold(bottomBar = {
-                BottomAppBar(
-                    backgroundColor = MaterialTheme.colors.surface,
-                    modifier = Modifier
-                        .padding(all = 10.dp)
-                        .clip(CircleShape)
-                ) {
-                    BottomNavigationItem(
-                        selected = homePageMutable.value,
-                        onClick = {
-                            homePageMutable.value = !homePageMutable.value
-                        }, icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.home),
-                                contentDescription = "home icon"
+            Scaffold(
+                bottomBar = {
+                    BottomAppBar(
+                        backgroundColor = MaterialTheme.colors.surface,
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .clip(CircleShape)
+                    ) {
+                        for (item in 1..5) {
+                            BottomNavigationItem(
+                                modifier = Modifier,
+                                selected = selectedItem.value == item,
+                                onClick = {
+                                    selectedItem.value = item
+                                    when (selectedItem.value) {
+                                        1 -> navController.navigateAndClean("FeedPage")
+                                        2 -> navController.navigateAndClean("SearchPage")
+                                        3 -> navController.navigateAndClean("NewPostPage")
+                                        4 -> navController.navigateAndClean("ReelsPage")
+                                        5 -> navController.navigateAndClean("ProfilePage")
+                                    }
+                                },
+                                icon = {
+                                    when (item) {
+                                        1 -> {
+                                            Icon(
+                                                painterResource(id = R.drawable.home),
+                                                contentDescription = "home page"
+                                            )
+                                        }
+                                        2 -> {
+                                            Icon(
+                                                painterResource(id = R.drawable.search),
+                                                contentDescription = "search page"
+                                            )
+                                        }
+                                        3 -> {
+                                            Icon(
+                                                painterResource(id = R.drawable.new_post),
+                                                contentDescription = "new post page"
+                                            )
+                                        }
+                                        4 -> {
+                                            Icon(
+                                                painterResource(id = R.drawable.reels),
+                                                contentDescription = "reels page"
+                                            )
+                                        }
+                                        5 -> {
+                                            Icon(
+                                                painterResource(id = R.drawable.person),
+                                                contentDescription = "profile page"
+                                            )
+                                        }
+                                    }
+                                }
                             )
-                        })
-                    BottomNavigationItem(
-                        selected = searchPageMutable.value,
-                        onClick = {
-                            searchPageMutable.value = !searchPageMutable.value
-                        }, icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.search),
-                                contentDescription = "search icon"
-                            )
-                        })
-                    BottomNavigationItem(
-                        selected = newPostPageMutable.value,
-                        onClick = {
-                            newPostPageMutable.value = !newPostPageMutable.value
-                        }, icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.new_post),
-                                contentDescription = "new post icon"
-                            )
-                        })
-                    BottomNavigationItem(
-                        selected = reelsPageMutable.value,
-                        onClick = {
-                            reelsPageMutable.value = !reelsPageMutable.value
-                        }, icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.reels),
-                                contentDescription = "reels icon"
-                            )
-                        })
-                    BottomNavigationItem(
-                        selected = userPageMutable.value,
-                        onClick = {
-                            userPageMutable.value = !userPageMutable.value
-                        }, icon = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.person),
-                                contentDescription = "person icon"
-                            )
-                        })
-                }
-            }, content = {
-                Pages()
-            })
+                        }
+                    }
+                }, content = {
+                    Pages(navController = navController)
+                })
         }
     }
+}
+
+fun NavController.navigateAndClean(route: String) {
+    navigate(route = route) {
+        popUpTo(graph.startDestinationId) { inclusive = true }
+    }
+    graph.setStartDestination(route)
 }
