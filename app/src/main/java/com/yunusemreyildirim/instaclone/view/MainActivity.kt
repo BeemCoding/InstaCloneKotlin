@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,8 +32,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    private lateinit var bottomSheetState:ModalBottomSheetState
-    private lateinit var scope:CoroutineScope
+    private lateinit var bottomSheetState: ModalBottomSheetState
+    private lateinit var scope: CoroutineScope
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -40,7 +42,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+                    bottomSheetState =
+                        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
                     scope = rememberCoroutineScope()
                     MainPagesWithScaffold()
                 }
@@ -62,8 +65,14 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
     fun MainPagesWithScaffold() {
+        val homePageMutable = remember { mutableStateOf(true) }
+        val searchPageMutable = remember { mutableStateOf(false) }
+        val newPostPageMutable = remember { mutableStateOf(false) }
+        val userPageMutable = remember { mutableStateOf(false) }
+        val reelsPageMutable = remember { mutableStateOf(false) }
         ModalBottomSheetLayout(
-            sheetState = bottomSheetState, sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+            sheetState = bottomSheetState,
+            sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
             sheetContent = {
 
                 BackHandler {
@@ -85,35 +94,62 @@ class MainActivity : ComponentActivity() {
             },
         ) {
             Scaffold(bottomBar = {
-                BottomAppBar(backgroundColor = MaterialTheme.colors.surface,
+                BottomAppBar(
+                    backgroundColor = MaterialTheme.colors.surface,
                     modifier = Modifier
                         .padding(all = 10.dp)
                         .clip(CircleShape)
                 ) {
-                    BottomNavigationItem(selected = true, onClick = {
-
-                    }, icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.home),
-                            contentDescription = "home icon"
-                        )
-                    })
-                    BottomNavigationItem(selected = false, onClick = {
-
-                    }, icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.search),
-                            contentDescription = "home icon"
-                        )
-                    })
-                    BottomNavigationItem(selected = false, onClick = {
-
-                    }, icon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.person),
-                            contentDescription = "home icon"
-                        )
-                    })
+                    BottomNavigationItem(
+                        selected = homePageMutable.value,
+                        onClick = {
+                            homePageMutable.value = !homePageMutable.value
+                        }, icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.home),
+                                contentDescription = "home icon"
+                            )
+                        })
+                    BottomNavigationItem(
+                        selected = searchPageMutable.value,
+                        onClick = {
+                            searchPageMutable.value = !searchPageMutable.value
+                        }, icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = "search icon"
+                            )
+                        })
+                    BottomNavigationItem(
+                        selected = newPostPageMutable.value,
+                        onClick = {
+                            newPostPageMutable.value = !newPostPageMutable.value
+                        }, icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.new_post),
+                                contentDescription = "new post icon"
+                            )
+                        })
+                    BottomNavigationItem(
+                        selected = reelsPageMutable.value,
+                        onClick = {
+                            reelsPageMutable.value = !reelsPageMutable.value
+                        }, icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.reels),
+                                contentDescription = "reels icon"
+                            )
+                        })
+                    BottomNavigationItem(
+                        selected = userPageMutable.value,
+                        onClick = {
+                            userPageMutable.value = !userPageMutable.value
+                        }, icon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.person),
+                                contentDescription = "person icon"
+                            )
+                        })
                 }
             }, content = {
                 Pages()
