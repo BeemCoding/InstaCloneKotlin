@@ -1,11 +1,9 @@
 package com.yunusemreyildirim.instaclone.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -164,29 +161,4 @@ fun PostImage(
             }
         }
     }
-}
-
-@Composable
-fun ProfilePhoto() {
-    val borderBrush = Brush.linearGradient(colors = listOf(Color.Red, Color.Blue, Color.Yellow))
-    Box(
-        modifier = Modifier
-            .size(36.dp)
-            .clip(CircleShape)
-            .border(width = 2.dp, brush = borderBrush, shape = CircleShape)
-            .clickable(onClick = {
-                //go profile
-            }),
-        contentAlignment = Alignment.Center
-    ) {
-        AsyncImage(
-            model = photo,
-            contentDescription = "post profile photo",
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(30.dp),
-            contentScale = ContentScale.Crop
-        )
-    }
-
 }
