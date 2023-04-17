@@ -1,5 +1,6 @@
 package com.yunusemreyildirim.instaclone.view
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
@@ -12,15 +13,22 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FeedPage() {
+fun FeedPage(context:Activity) {
 
     val scope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
+
             BackHandler {
-                scope.launch { bottomSheetState.hide() }
+                if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden) {
+                    scope.launch { bottomSheetState.hide() }
+                }
+                else{
+                    context.finish()
+                }
             }
             LazyColumn {
                 item { Comment() }
@@ -34,18 +42,26 @@ fun FeedPage() {
         },
     ) {
         LazyColumn {
-            item { PostImage{
-                scope.launch { bottomSheetState.show() }
-            } }
-            item { PostImage{
-                scope.launch { bottomSheetState.show() }
-            } }
-            item { PostImage{
-                scope.launch { bottomSheetState.show() }
-            } }
-            item{ PostImage{
-                scope.launch { bottomSheetState.show() }
-            } }
+            item {
+                PostImage {
+                    scope.launch { bottomSheetState.show() }
+                }
+            }
+            item {
+                PostImage {
+                    scope.launch { bottomSheetState.show() }
+                }
+            }
+            item {
+                PostImage {
+                    scope.launch { bottomSheetState.show() }
+                }
+            }
+            item {
+                PostImage {
+                    scope.launch { bottomSheetState.show() }
+                }
+            }
         }
     }
 }
