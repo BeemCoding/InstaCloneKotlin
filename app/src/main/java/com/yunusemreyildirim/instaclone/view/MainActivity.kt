@@ -112,6 +112,7 @@ class MainActivity : ComponentActivity() {
                         item { Comment(navController) }
                         item { Comment(navController) }
                         item { SubComment(navController) }
+                        item { Spacer(modifier = Modifier.height(30.dp)) }
                     }
                 },
             ) {
@@ -186,7 +187,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
-                        .height(50.dp).padding(start = 12.dp, end = 12.dp),
+                        .height(50.dp)
+                        .padding(start = 12.dp, end = 12.dp),
                     placeholder = {
                         Text(
                             text = "your comments here.", fontSize = 14.sp
@@ -194,7 +196,9 @@ class MainActivity : ComponentActivity() {
                     }, singleLine = true, textStyle = TextStyle(fontSize = 14.sp),
                     colors = TextFieldDefaults.outlinedTextFieldColors(backgroundColor = MaterialTheme.colors.surface)
                 )
+                Spacer(modifier = Modifier.height(12.dp))
             }
+            else{commentText.value = ""}
         }
     }
 }

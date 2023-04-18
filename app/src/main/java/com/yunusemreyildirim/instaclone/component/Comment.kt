@@ -1,7 +1,9 @@
 package com.yunusemreyildirim.instaclone.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -14,11 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.yunusemreyildirim.instaclone.R
 import com.yunusemreyildirim.instaclone.view.navigateAndClean
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Comment(navController: NavHostController) {
     Column(
@@ -26,6 +30,7 @@ fun Comment(navController: NavHostController) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(16.dp)
+            .combinedClickable(onDoubleClick = {/*like*/ }) {}
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProfilePhoto(imageModifier = Modifier
@@ -48,28 +53,40 @@ fun Comment(navController: NavHostController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp)
+                .padding(top = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.heart),
                 contentDescription = "like comment",
-                modifier = Modifier
-                    .clickable {
+                modifier = Modifier.combinedClickable {
 
-                    }
-                    .padding(end = 15.dp), tint = Color.Gray
+                }, tint = Color.Gray
             )
+            Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = "answer",
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(end = 15.dp),
-                color = Color.Gray
+                modifier = Modifier
+                    .padding(end = 15.dp)
+                    .clickable {
+
+                    },
+                color = Color.Gray, fontSize = 13.sp
             )
-            Text(text = "Copy", fontWeight = FontWeight.SemiBold, color = Color.Gray)
+            Text(
+                text = "copy",
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Gray,
+                fontSize = 13.sp,
+                modifier = Modifier.clickable {
+
+                })
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubComment(navController: NavHostController) {
     Column(
@@ -77,6 +94,7 @@ fun SubComment(navController: NavHostController) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(end = 16.dp, bottom = 16.dp, start = 80.dp)
+            .combinedClickable(onDoubleClick = {/*like*/}) {}
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProfilePhoto(imageModifier = Modifier
@@ -101,22 +119,33 @@ fun SubComment(navController: NavHostController) {
                 .fillMaxWidth()
                 .padding(top = 4.dp)
         ) {
+
             Icon(
                 painter = painterResource(id = R.drawable.heart),
                 contentDescription = "like comment",
-                modifier = Modifier
-                    .clickable {
+                modifier = Modifier.combinedClickable {
 
-                    }
-                    .padding(end = 15.dp), tint = Color.Gray
+                }, tint = Color.Gray
             )
+            Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = "answer",
                 fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(end = 15.dp),
-                color = Color.Gray
+                modifier = Modifier
+                    .padding(end = 15.dp)
+                    .clickable {
+
+                    },
+                color = Color.Gray, fontSize = 13.sp
             )
-            Text(text = "Copy", fontWeight = FontWeight.SemiBold, color = Color.Gray)
+            Text(
+                text = "copy",
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Gray,
+                fontSize = 13.sp,
+                modifier = Modifier.clickable {
+
+                })
         }
     }
 }
