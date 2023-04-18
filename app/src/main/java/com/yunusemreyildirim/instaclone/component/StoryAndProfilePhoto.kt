@@ -11,11 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
 
 @Composable
 fun StoryAndProfilePhoto(
@@ -25,25 +23,20 @@ fun StoryAndProfilePhoto(
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
             Spacer(modifier = Modifier.width(6.dp))
-            Box(
+            ProfilePhoto(
                 modifier = Modifier
                     .size(76.dp)
                     .clip(CircleShape)
                     .border(width = 2.dp, brush = borderBrush, shape = CircleShape)
-                    .clickable(onClick = {
-                        //go profile
-                    }),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = photo,
-                    contentDescription = "post profile photo",
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(65.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
+                    .clickable(
+                        onClick = {
+                            //Go Story
+                        }
+                    ),
+                imageModifier = Modifier
+                    .clip(CircleShape)
+                    .size(70.dp)
+            )
             Spacer(modifier = Modifier.width(6.dp))
         }
         Text(text = "username_x", fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))

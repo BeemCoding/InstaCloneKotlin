@@ -31,7 +31,7 @@ fun Comment(navController: NavHostController) {
             ProfilePhoto(imageModifier = Modifier
                 .clip(CircleShape)
                 .size(30.dp),
-                boxModifier = Modifier
+                modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
@@ -82,12 +82,13 @@ fun SubComment(navController: NavHostController) {
             ProfilePhoto(imageModifier = Modifier
                 .clip(CircleShape)
                 .size(30.dp),
-                boxModifier = Modifier
+                modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
                     .clickable {
                         navController.navigateAndClean("ProfilePage")
+
                     })
             Text(
                 text = "username_x",

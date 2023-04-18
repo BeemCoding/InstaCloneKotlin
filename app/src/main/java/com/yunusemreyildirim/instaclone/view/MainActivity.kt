@@ -7,15 +7,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -31,6 +36,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    private lateinit var commentText: MutableState<String>
     private lateinit var bottomSheetState: ModalBottomSheetState
     private lateinit var scope: CoroutineScope
     private lateinit var selectedItem: MutableState<Int>
@@ -46,18 +52,21 @@ class MainActivity : ComponentActivity() {
                         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
                     scope = rememberCoroutineScope()
                     val navController = rememberNavController()
+                    commentText = remember { mutableStateOf("") }
+
                     MainPagesWithScaffold(navController)
                 }
             }
         }
     }
 
+    @SuppressLint("CoroutineCreationDuringComposition")
     @Composable
     fun Pages(navController: NavHostController) {
         NavHost(navController = navController, startDestination = "FeedPage") {
             composable("FeedPage") {
                 selectedItem.value = 1
-                FeedPage(navController ,bottomSheetState, scope)
+                FeedPage(navController, bottomSheetState, scope)
             }
             composable("SearchPage") {
                 selectedItem.value = 2
@@ -72,6 +81,7 @@ class MainActivity : ComponentActivity() {
                 Text(text = "Reels Page")
             }
             composable("ProfilePage") {
+                scope.launch { bottomSheetState.hide() }
                 selectedItem.value = 5
                 Text(text = "Profile Page")
             }
@@ -83,91 +93,107 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainPagesWithScaffold(navController: NavHostController) {
         selectedItem = remember { mutableStateOf(1) }
-        ModalBottomSheetLayout(
-            sheetState = bottomSheetState,
-            sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
-            sheetContent = {
-
-                BackHandler {
-                    if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden) {
-                        scope.launch { bottomSheetState.hide() }
-                    } else {
-                        finish()
-                    }
-                }
-                LazyColumn {
-                    item { Comment(navController) }
-                    item { Comment(navController) }
-                    item { SubComment(navController) }
-                    item { SubComment(navController) }
-                    item { Comment(navController) }
-                    item { Comment(navController) }
-                    item { SubComment(navController) }
-                }
-            },
-        ) {
-            Scaffold(
-                bottomBar = {
-                    BottomAppBar(
-                        backgroundColor = MaterialTheme.colors.surface,
-                        modifier = Modifier
-                            .padding(all = 10.dp)
-                            .clip(CircleShape)
-                    ) {
-                        for (item in 1..5) {
-                            BottomNavigationItem(
-                                modifier = Modifier,
-                                selected = selectedItem.value == item,
-                                onClick = {
-                                    selectedItem.value = item
-                                    when (selectedItem.value) {
-                                        1 -> navController.navigateAndClean("FeedPage")
-                                        2 -> navController.navigateAndClean("SearchPage")
-                                        3 -> navController.navigateAndClean("NewPostPage")
-                                        4 -> navController.navigateAndClean("ReelsPage")
-                                        5 -> navController.navigateAndClean("ProfilePage")
-                                    }
-                                },
-                                icon = {
-                                    when (item) {
-                                        1 -> {
-                                            Icon(
-                                                painterResource(id = R.drawable.home),
-                                                contentDescription = "home page"
-                                            )
-                                        }
-                                        2 -> {
-                                            Icon(
-                                                painterResource(id = R.drawable.search),
-                                                contentDescription = "search page"
-                                            )
-                                        }
-                                        3 -> {
-                                            Icon(
-                                                painterResource(id = R.drawable.new_post),
-                                                contentDescription = "new post page"
-                                            )
-                                        }
-                                        4 -> {
-                                            Icon(
-                                                painterResource(id = R.drawable.reels),
-                                                contentDescription = "reels page"
-                                            )
-                                        }
-                                        5 -> {
-                                            Icon(
-                                                painterResource(id = R.drawable.person),
-                                                contentDescription = "profile page"
-                                            )
-                                        }
-                                    }
-                                }
-                            )
+        Box(modifier = Modifier.fillMaxSize()) {
+            ModalBottomSheetLayout(
+                sheetState = bottomSheetState,
+                sheetShape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                sheetContent = {
+                    BackHandler {
+                        if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden) {
+                            scope.launch { bottomSheetState.hide() }
+                        } else {
+                            finish()
                         }
                     }
-                }, content = {
-                    Pages(navController = navController)
-                })
+                    LazyColumn {
+                        item { Comment(navController) }
+                        item { Comment(navController) }
+                        item { SubComment(navController) }
+                        item { SubComment(navController) }
+                        item { Comment(navController) }
+                        item { Comment(navController) }
+                        item { SubComment(navController) }
+                    }
+                },
+            ) {
+                Scaffold(
+                    bottomBar = {
+                        BottomAppBar(
+                            backgroundColor = MaterialTheme.colors.surface,
+                            modifier = Modifier
+                                .padding(all = 10.dp)
+                                .clip(CircleShape)
+                                .border(1.dp, Color(135, 141, 152, 0x27), CircleShape)
+                        ) {
+                            for (item in 1..5) {
+                                BottomNavigationItem(
+                                    modifier = Modifier,
+                                    selected = selectedItem.value == item,
+                                    onClick = {
+                                        selectedItem.value = item
+                                        when (selectedItem.value) {
+                                            1 -> navController.navigateAndClean("FeedPage")
+                                            2 -> navController.navigateAndClean("SearchPage")
+                                            3 -> navController.navigateAndClean("NewPostPage")
+                                            4 -> navController.navigateAndClean("ReelsPage")
+                                            5 -> navController.navigateAndClean("ProfilePage")
+                                        }
+                                    },
+                                    icon = {
+                                        when (item) {
+                                            1 -> {
+                                                Icon(
+                                                    painterResource(id = R.drawable.home),
+                                                    contentDescription = "home page"
+                                                )
+                                            }
+                                            2 -> {
+                                                Icon(
+                                                    painterResource(id = R.drawable.search),
+                                                    contentDescription = "search page"
+                                                )
+                                            }
+                                            3 -> {
+                                                Icon(
+                                                    painterResource(id = R.drawable.new_post),
+                                                    contentDescription = "new post page"
+                                                )
+                                            }
+                                            4 -> {
+                                                Icon(
+                                                    painterResource(id = R.drawable.reels),
+                                                    contentDescription = "reels page"
+                                                )
+                                            }
+                                            5 -> {
+                                                Icon(
+                                                    painterResource(id = R.drawable.person),
+                                                    contentDescription = "profile page"
+                                                )
+                                            }
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }, content = {
+                        Pages(navController = navController)
+                    })
+            }
+
+            TextField(
+                value = commentText.value,
+                onValueChange = { commentText.value = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter),
+                placeholder = {
+                    Text(
+                        text = "your comments here."
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface)
+            )
         }
     }
 }

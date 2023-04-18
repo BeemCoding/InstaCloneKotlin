@@ -86,6 +86,9 @@ fun FeedPage(navController: NavHostController ,bottomSheetState: ModalBottomShee
                     scope.launch { bottomSheetState.show() }
                 }
             }
+            item { 
+                Spacer(modifier = Modifier.height(70.dp))
+            }
         }
     })
 }
