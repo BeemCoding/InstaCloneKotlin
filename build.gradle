@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     ext {
-        compose_ui_version = '1.5.0-alpha02'
+        compose_ui_version = '1.4.1'
         accompanist_version = '0.29.1-alpha'
     }
     dependencies {

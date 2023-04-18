@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,12 +25,13 @@ import com.yunusemreyildirim.instaclone.view.navigateAndClean
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Comment(navController: NavHostController) {
+    var like by remember{ mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(16.dp)
-            .combinedClickable(onDoubleClick = {/*like*/ }) {}
+            .combinedClickable(onDoubleClick = {like = !like}) {}
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProfilePhoto(imageModifier = Modifier
@@ -57,11 +58,11 @@ fun Comment(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.heart),
+                painter = painterResource(id = if(!like) R.drawable.heart else R.drawable.heart_filled),
                 contentDescription = "like comment",
                 modifier = Modifier.combinedClickable {
-
-                }, tint = Color.Gray
+                    like = !like
+                }, tint = if(!like) Color.Gray else Color.Red
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
@@ -89,12 +90,13 @@ fun Comment(navController: NavHostController) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubComment(navController: NavHostController) {
+    var like by remember{ mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(end = 16.dp, bottom = 16.dp, start = 80.dp)
-            .combinedClickable(onDoubleClick = {/*like*/}) {}
+            .combinedClickable(onDoubleClick = {like = !like}) {}
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProfilePhoto(imageModifier = Modifier
@@ -121,11 +123,11 @@ fun SubComment(navController: NavHostController) {
         ) {
 
             Icon(
-                painter = painterResource(id = R.drawable.heart),
+                painter = painterResource(id = if(!like) R.drawable.heart else R.drawable.heart_filled),
                 contentDescription = "like comment",
                 modifier = Modifier.combinedClickable {
-
-                }, tint = Color.Gray
+                    like = !like
+                }, tint = if(!like) Color.Gray else Color.Red
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(

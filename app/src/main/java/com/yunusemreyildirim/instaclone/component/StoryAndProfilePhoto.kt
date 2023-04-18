@@ -9,8 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -19,7 +17,6 @@ import androidx.navigation.NavHostController
 fun StoryAndProfilePhoto(
     navController: NavHostController
 ) {
-    val borderBrush = Brush.linearGradient(colors = listOf(Color.Red, Color.Green, Color.Blue))
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
             Spacer(modifier = Modifier.width(6.dp))
@@ -27,7 +24,7 @@ fun StoryAndProfilePhoto(
                 modifier = Modifier
                     .size(76.dp)
                     .clip(CircleShape)
-                    .border(width = 2.dp, brush = borderBrush, shape = CircleShape)
+                    .border(width = 3.dp, brush = borderBrush.value, shape = CircleShape)
                     .clickable(
                         onClick = {
                             //Go Story
@@ -35,7 +32,7 @@ fun StoryAndProfilePhoto(
                     ),
                 imageModifier = Modifier
                     .clip(CircleShape)
-                    .size(70.dp)
+                    .size(69.dp)
             )
             Spacer(modifier = Modifier.width(6.dp))
         }

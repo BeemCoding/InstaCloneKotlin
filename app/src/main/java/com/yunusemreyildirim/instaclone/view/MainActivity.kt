@@ -27,6 +27,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.*
 import com.yunusemreyildirim.instaclone.R
 import com.yunusemreyildirim.instaclone.component.Comment
 import com.yunusemreyildirim.instaclone.component.SubComment
