@@ -8,10 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -180,20 +179,22 @@ class MainActivity : ComponentActivity() {
                         Pages(navController = navController)
                     })
             }
-
-            TextField(
-                value = commentText.value,
-                onValueChange = { commentText.value = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                placeholder = {
-                    Text(
-                        text = "your comments here."
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = MaterialTheme.colors.surface)
-            )
+            if(bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
+                OutlinedTextField(shape = RoundedCornerShape(15.dp),
+                    value = commentText.value,
+                    onValueChange = { commentText.value = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .height(50.dp).padding(start = 12.dp, end = 12.dp),
+                    placeholder = {
+                        Text(
+                            text = "your comments here.", fontSize = 14.sp
+                        )
+                    }, singleLine = true, textStyle = TextStyle(fontSize = 14.sp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(backgroundColor = MaterialTheme.colors.surface)
+                )
+            }
         }
     }
 }

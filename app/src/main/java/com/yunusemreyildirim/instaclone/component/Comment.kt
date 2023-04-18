@@ -88,7 +88,6 @@ fun SubComment(navController: NavHostController) {
                     .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
                     .clickable {
                         navController.navigateAndClean("ProfilePage")
-
                     })
             Text(
                 text = "username_x",
