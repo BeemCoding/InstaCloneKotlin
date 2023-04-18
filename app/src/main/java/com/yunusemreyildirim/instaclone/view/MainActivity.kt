@@ -180,8 +180,9 @@ class MainActivity : ComponentActivity() {
                         Pages(navController = navController)
                     })
             }
-            if(bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
-                OutlinedTextField(shape = RoundedCornerShape(15.dp),
+            if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden) {
+                OutlinedTextField(
+                    shape = RoundedCornerShape(15.dp),
                     value = commentText.value,
                     onValueChange = { commentText.value = it },
                     modifier = Modifier
@@ -189,6 +190,13 @@ class MainActivity : ComponentActivity() {
                         .align(Alignment.BottomCenter)
                         .height(50.dp)
                         .padding(start = 12.dp, end = 12.dp),
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            //Send Comment
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.share), contentDescription = "share comment icon")
+                        }
+                    },
                     placeholder = {
                         Text(
                             text = "your comments here.", fontSize = 14.sp
@@ -197,8 +205,9 @@ class MainActivity : ComponentActivity() {
                     colors = TextFieldDefaults.outlinedTextFieldColors(backgroundColor = MaterialTheme.colors.surface)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
+            } else {
+                commentText.value = ""
             }
-            else{commentText.value = ""}
         }
     }
 }
