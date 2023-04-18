@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                 Text(text = "Reels Page")
             }
             composable("ProfilePage") {
-                scope.launch { bottomSheetState.hide() }
+                scope.launch {bottomSheetState.hide() }
                 selectedItem.value = 5
                 Text(text = "Profile Page")
             }

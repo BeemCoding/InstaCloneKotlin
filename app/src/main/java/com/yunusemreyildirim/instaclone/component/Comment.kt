@@ -25,13 +25,13 @@ import com.yunusemreyildirim.instaclone.view.navigateAndClean
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Comment(navController: NavHostController) {
-    var like by remember{ mutableStateOf(false) }
+    var like by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(16.dp)
-            .combinedClickable(onDoubleClick = {like = !like}) {}
+            .combinedClickable(onDoubleClick = { like = !like }) {}
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProfilePhoto(imageModifier = Modifier
@@ -46,7 +46,9 @@ fun Comment(navController: NavHostController) {
                     })
             Text(
                 text = "username_x",
-                modifier = Modifier.padding(start = 6.dp),
+                modifier = Modifier.padding(start = 6.dp).clickable {
+                    navController.navigateAndClean("ProfilePage")
+                },
                 fontWeight = FontWeight.SemiBold
             )
         }
@@ -58,11 +60,11 @@ fun Comment(navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(id = if(!like) R.drawable.heart else R.drawable.heart_filled),
+                painter = painterResource(id = if (!like) R.drawable.heart else R.drawable.heart_filled),
                 contentDescription = "like comment",
                 modifier = Modifier.combinedClickable {
                     like = !like
-                }, tint = if(!like) Color.Gray else Color.Red
+                }, tint = if (!like) Color.Gray else Color.Red
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
@@ -90,13 +92,13 @@ fun Comment(navController: NavHostController) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubComment(navController: NavHostController) {
-    var like by remember{ mutableStateOf(false) }
+    var like by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(end = 16.dp, bottom = 16.dp, start = 80.dp)
-            .combinedClickable(onDoubleClick = {like = !like}) {}
+            .combinedClickable(onDoubleClick = { like = !like }) {}
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             ProfilePhoto(imageModifier = Modifier
@@ -111,7 +113,11 @@ fun SubComment(navController: NavHostController) {
                     })
             Text(
                 text = "username_x",
-                modifier = Modifier.padding(start = 6.dp),
+                modifier = Modifier
+                    .padding(start = 6.dp)
+                    .clickable {
+                               navController.navigateAndClean("ProfilePage")
+                    },
                 fontWeight = FontWeight.SemiBold
             )
         }
@@ -123,11 +129,11 @@ fun SubComment(navController: NavHostController) {
         ) {
 
             Icon(
-                painter = painterResource(id = if(!like) R.drawable.heart else R.drawable.heart_filled),
+                painter = painterResource(id = if (!like) R.drawable.heart else R.drawable.heart_filled),
                 contentDescription = "like comment",
                 modifier = Modifier.combinedClickable {
                     like = !like
-                }, tint = if(!like) Color.Gray else Color.Red
+                }, tint = if (!like) Color.Gray else Color.Red
             )
             Spacer(modifier = Modifier.width(15.dp))
             Text(
