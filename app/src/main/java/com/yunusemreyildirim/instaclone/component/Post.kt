@@ -62,7 +62,7 @@ fun PostImage(
                         imageModifier = Modifier
                             .clip(CircleShape)
                             .size(30.dp),
-                        boxModifier = Modifier
+                        modifier = Modifier
                             .size(36.dp)
                             .clip(CircleShape)
                             .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
