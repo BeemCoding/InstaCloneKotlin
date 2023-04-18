@@ -8,7 +8,6 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun PostThumb(modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
-
     }
 }
 

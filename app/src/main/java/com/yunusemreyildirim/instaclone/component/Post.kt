@@ -28,6 +28,7 @@ import com.airbnb.lottie.compose.*
 import com.yunusemreyildirim.instaclone.R
 import com.yunusemreyildirim.instaclone.view.navigateAndClean
 import kotlinx.coroutines.delay
+import nl.birdly.zoombox.zoomable
 
 const val photo = R.drawable.test_image
 
@@ -120,12 +121,21 @@ fun PostImage(
                         }
                     }
                 }
-                if (like){
-                    LottieAnimation(composition, modifier = Modifier.height(300.dp).alpha(if (animationProgress >= 1f) 0f else 1f))
+                if (like) {
+                    LottieAnimation(
+                        composition,
+                        modifier = Modifier
+                            .height(300.dp)
+                            .alpha(if (animationProgress >= 1f) 0f else 1f)
+                    )
                 }
                 if (showImage.value) {
                     Dialog(onDismissRequest = { showImage.value = false }) {
-                        AsyncImage(model = photo, contentDescription = "Dialog Image")
+                        AsyncImage(
+                            model = photo,
+                            contentDescription = "Dialog Image",
+                            modifier = Modifier.fillMaxSize().zoomable()
+                        )
                     }
                 }
             }
