@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     navController = rememberNavController()
                     commentText = remember { mutableStateOf("") }
 
-                    MainPagesWithScaffold()
+                    MainPagesWithScaffold(navController)
                 }
             }
         }
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("CoroutineCreationDuringComposition")
     @Composable
-    fun Pages() {
+    fun Pages(navController:NavHostController) {
         NavHost(navController = navController, startDestination = "FeedPage") {
             composable("FeedPage") {
                 selectedItem.value = 1
@@ -81,10 +81,14 @@ class MainActivity : ComponentActivity() {
                 selectedItem.value = 4
                 Text(text = "Reels Page")
             }
-            composable("ProfilePage") {
-                scope.launch {bottomSheetState.hide() }
+            composable("UserProfilePage") {
                 selectedItem.value = 5
-                Text(text = "Profile Page")
+                Text(text = "User Profile Page")
+            }
+            composable("ProfilePage"){
+                selectedItem.value = 0
+                scope.launch { bottomSheetState.hide() }
+                Text("User Profile Page")
             }
         }
     }
@@ -92,7 +96,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     @Composable
-    fun MainPagesWithScaffold() {
+    fun MainPagesWithScaffold(navController:NavHostController) {
         selectedItem = remember { mutableStateOf(1) }
         Box(modifier = Modifier.fillMaxSize()) {
             ModalBottomSheetLayout(
@@ -179,7 +183,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }, content = {
-                        Pages()
+                        Pages(navController)
                     })
             }
             if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden) {

@@ -31,28 +31,30 @@ fun Comment(navController: NavHostController) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(16.dp)
-            .combinedClickable(onDoubleClick = { like = !like }) {}
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            ProfilePhoto(imageModifier = Modifier
-                .clip(CircleShape)
-                .size(30.dp),
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
+            navController.navigateAndClean("UserProfilePage")
+        }) {
+            ProfilePhoto(
+                imageModifier = Modifier
+                    .clip(CircleShape)
+                    .size(30.dp),
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
-                    .clickable {
-                        navController.navigateAndClean("ProfilePage")
-                    })
+            )
             Text(
                 text = "username_x",
-                modifier = Modifier.padding(start = 6.dp).clickable {
-                    navController.navigateAndClean("ProfilePage")
-                },
+                modifier = Modifier
+                    .padding(start = 6.dp),
                 fontWeight = FontWeight.SemiBold
             )
         }
-        Text(text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının")
+        Text(
+            modifier = Modifier.combinedClickable(onDoubleClick = { like = !like }) {},
+            text = "Nulla tempor risus primis, tellus vitae mollis potenti aliquam. Eros sit rhoncus amet, donec quisque cursus, etiam aliquet venenatis felis purus inceptos nisl blandit."
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,30 +100,32 @@ fun SubComment(navController: NavHostController) {
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(end = 16.dp, bottom = 16.dp, start = 80.dp)
-            .combinedClickable(onDoubleClick = { like = !like }) {}
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            ProfilePhoto(imageModifier = Modifier
-                .clip(CircleShape)
-                .size(30.dp),
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable {
+                navController.navigateAndClean("UserProfilePage")
+            }) {
+            ProfilePhoto(
+                imageModifier = Modifier
+                    .clip(CircleShape)
+                    .size(30.dp),
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .border(width = 2.dp, brush = borderBrush.value, shape = CircleShape)
-                    .clickable {
-                        navController.navigateAndClean("ProfilePage")
-                    })
+            )
             Text(
                 text = "username_x",
                 modifier = Modifier
-                    .padding(start = 6.dp)
-                    .clickable {
-                               navController.navigateAndClean("ProfilePage")
-                    },
+                    .padding(start = 6.dp),
                 fontWeight = FontWeight.SemiBold
             )
         }
-        Text(text = "Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının")
+        Text(modifier = Modifier.combinedClickable(onDoubleClick = { like = !like }) {},
+            text =
+            "Nulla tempor risus primis, tellus vitae mollis potenti aliquam. Eros sit rhoncus amet, donec quisque cursus, etiam aliquet venenatis felis purus inceptos nisl blandit."
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
