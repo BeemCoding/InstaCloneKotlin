@@ -23,5 +23,6 @@
 hs_err_pid*
 replay_pid*
 
+local.properties
 app/proguard-rules.pro
 app/google-services.json
